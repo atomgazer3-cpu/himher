@@ -1,0 +1,188 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Variables */
+:root {
+  --color-gold-light: #fef08a;
+  --color-gold: #fbbf24;
+  --color-gold-dark: #d97706;
+  --color-royal-dark: #070000;
+  --color-royal-medium: #150202;
+  --color-royal-light: #2c0505;
+  --color-ruby-glow: rgba(220, 38, 38, 0.4);
+  --color-gold-glow: rgba(251, 191, 36, 0.3);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-royal-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, var(--color-gold-dark), var(--color-gold));
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-light);
+}
+
+/* Base Body Design */
+body {
+  background-color: var(--color-royal-dark);
+  color: #f3f4f6;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Cinematic Background */
+.cinematic-bg {
+  background: radial-gradient(circle at 50% 50%, var(--color-royal-light) 0%, var(--color-royal-medium) 50%, var(--color-royal-dark) 100%);
+  background-attachment: fixed;
+}
+
+/* Premium Typography Helper */
+.font-cinzel {
+  font-family: 'Cinzel', serif;
+}
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+.font-greatvibes {
+  font-family: 'Great Vibes', cursive;
+}
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Glassmorphism Panel styles */
+.glass-panel {
+  background: rgba(15, 2, 2, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(251, 191, 36, 0.15);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 1rem;
+}
+
+.glass-panel-glow {
+  background: rgba(25, 4, 4, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(220, 38, 38, 0.25);
+  box-shadow: 0 0 25px var(--color-ruby-glow), inset 0 0 15px rgba(220, 38, 38, 0.1);
+  border-radius: 1.5rem;
+}
+
+/* Golden Glowing text shadows */
+.glow-text-gold {
+  color: #fff;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
+               0 0 10px var(--color-gold),
+               0 0 20px var(--color-gold-dark),
+               0 0 30px #b45309;
+}
+
+.glow-text-red {
+  color: #fca5a5;
+  text-shadow: 0 0 5px rgba(252, 165, 165, 0.5),
+               0 0 15px #ef4444,
+               0 0 30px #b91c1c;
+}
+
+/* Custom 3D Card Flips */
+.flip-card {
+  perspective: 1000px;
+  height: 280px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.8s;
+  transform-style: preserve-3d;
+}
+
+.flip-card.flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 1rem;
+}
+
+.flip-card-front {
+  background: rgba(25, 4, 4, 0.7);
+  border: 1px solid rgba(251, 191, 36, 0.2);
+}
+
+.flip-card-back {
+  background: linear-gradient(135deg, rgba(30, 5, 5, 0.95) 0%, rgba(15, 2, 2, 0.98) 100%);
+  border: 1px solid rgba(220, 38, 38, 0.4);
+  box-shadow: inset 0 0 20px rgba(220, 38, 38, 0.2);
+  transform: rotateY(180deg);
+}
+
+/* Shake Animation for padlock */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-6px); }
+  20%, 40%, 60%, 80% { transform: translateX(6px); }
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Blinking Cursor for Typewriter */
+.typewriter-cursor::after {
+  content: '|';
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Float particles animation in background */
+@keyframes floatUp {
+  0% {
+    transform: translateY(100vh) rotate(0deg) scale(0.6);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.8;
+  }
+  90% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(-20vh) rotate(360deg) scale(1.2);
+    opacity: 0;
+  }
+}
+
+.floating-heart {
+  position: fixed;
+  pointer-events: none;
+  z-index: 2;
+  animation: floatUp 8s linear infinite;
+  color: rgba(220, 38, 38, 0.2);
+}
+
+.floating-sparkle {
+  position: fixed;
+  pointer-events: none;
+  z-index: 2;
+  animation: floatUp 12s linear infinite;
+  color: rgba(251, 191, 36, 0.15);
+}

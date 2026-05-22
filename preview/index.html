@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chinnoda ❤️ Mattooooo | Our Infinite Love Story</title>
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Great+Vibes&family=Inter:wght@300;400;500;600;700&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            gold: '#fbbf24',
+            'gold-dark': '#d97706',
+            'royal-dark': '#070000',
+            'royal-medium': '#150202',
+            'royal-light': '#2c0505',
+          },
+          fontFamily: {
+            cinzel: ['Cinzel', 'serif'],
+            playfair: ['Playfair Display', 'serif'],
+            greatvibes: ['Great Vibes', 'cursive'],
+            inter: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- GSAP & ScrollTrigger CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-royal-dark text-gray-200 antialiased overflow-x-hidden">
+
+  <!-- Background Music Player -->
+  <audio id="bg-music" loop></audio>
+
+  <!-- Floating Particles Canvas -->
+  <canvas id="canvas-particles"></canvas>
+
+  <!-- PRELOADER & FULLSCREEN STORYTELLING COUNTDOWN -->
+  <div id="loading-screen" class="px-6 text-center select-none">
+    <!-- Star glow overlay background -->
+    <div class="absolute w-[400px] h-[400px] bg-gold/5 blur-[120px] rounded-full top-1/4 left-1/4 pointer-events-none"></div>
+    <div class="absolute w-[400px] h-[400px] bg-red-600/5 blur-[120px] rounded-full bottom-1/4 right-1/4 pointer-events-none"></div>
+
+    <div class="max-w-3xl z-10 flex flex-col items-center">
+      <!-- Sequential Text Fades -->
+      <p id="sequential-text" class="text-gradient-gold text-2xl md:text-4xl font-cinzel font-black transition-all duration-1000 opacity-0 transform translate-y-[15px] leading-relaxed max-w-2xl px-4"></p>
+      
+      <!-- Interactive loading spinner -->
+      <div id="loading-spinner" class="mt-6 flex flex-col items-center gap-4">
+        <div class="w-10 h-10 border-4 border-gold/20 border-t-gold rounded-full animate-spin"></div>
+        <p class="text-[9px] uppercase tracking-[0.3em] text-gray-500 font-bold">Aligning the Stars...</p>
+      </div>
+
+      <!-- Opening Countdown (revealed after text sequence) -->
+      <div id="opening-countdown" class="hidden opacity-0 transform translate-y-6 transition-all duration-[1500ms] ease-out">
+        <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full border border-gold/30 bg-gold/5 text-gold text-xs uppercase tracking-widest mb-6">
+          <i data-lucide="heart" class="w-3.5 h-3.5 fill-gold animate-pulse text-gold border-none"></i>
+          <span>Destiny Countdown</span>
+        </div>
+        
+        <h2 id="couple-title" class="font-cinzel text-3xl md:text-5xl lg:text-6xl font-black text-gradient-gold mb-4 select-none tracking-wide">
+          Chinnoda ❤️ Mattooooo
+        </h2>
+        <p class="font-playfair text-base md:text-lg text-gray-400 italic mb-10 max-w-xl mx-auto leading-relaxed">
+          "Our love story is written by destiny, and this is our countdown to forever..."
+        </p>
+
+        <!-- Dynamic countdown dials -->
+        <div class="grid grid-cols-4 gap-4 max-w-md mx-auto mb-12">
+          <div class="glass-panel p-4 border border-gold/10">
+            <span id="entrance-days" class="font-cinzel text-3xl md:text-4xl font-black text-white glow-text-gold">00</span>
+            <span class="text-[9px] uppercase tracking-wider text-gold mt-1 block font-bold">Days</span>
+          </div>
+          <div class="glass-panel p-4 border border-gold/10">
+            <span id="entrance-hours" class="font-cinzel text-3xl md:text-4xl font-black text-white glow-text-gold">00</span>
+            <span class="text-[9px] uppercase tracking-wider text-gold mt-1 block font-bold">Hours</span>
+          </div>
+          <div class="glass-panel p-4 border border-gold/10">
+            <span id="entrance-minutes" class="font-cinzel text-3xl md:text-4xl font-black text-white glow-text-gold">00</span>
+            <span class="text-[9px] uppercase tracking-wider text-gold mt-1 block font-bold">Mins</span>
+          </div>
+          <div class="glass-panel p-4 border border-gold/10">
+            <span id="entrance-seconds" class="font-cinzel text-3xl md:text-4xl font-black text-white glow-text-red">00</span>
+            <span class="text-[9px] uppercase tracking-wider text-gold mt-1 block font-bold">Secs</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Unlock button -->
+      <button id="btn-enter" class="hidden btn-shimmer px-8 py-4 rounded-full font-cinzel text-xs uppercase tracking-widest font-bold opacity-0 transform translate-y-6 transition-all duration-[1000ms] shadow-2xl">
+        Unlock Our Love Story ❤️
+      </button>
+    </div>
+  </div>
+
+  <!-- MAIN APPLICATION LAYOUT -->
+  <div class="relative w-full min-h-screen pt-20 z-10 cinematic-bg">
+
+    <!-- FLOATING STICKY HEADER -->
+    <header class="fixed top-0 left-0 w-full z-40 py-5 border-b border-white/5 transition-all duration-500 bg-transparent">
+      <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <a href="#hero" class="font-cinzel text-xl md:text-2xl font-bold tracking-widest text-gradient-gold select-none">
+          OUR INFINITY
+        </a>
+
+        <!-- Desktop Navigation links -->
+        <nav class="hidden lg:flex gap-6 text-xs md:text-sm uppercase tracking-widest font-semibold">
+          <a href="#hero" class="nav-link py-1 text-gold">Home<span class="nav-underline absolute bottom-0 left-0 w-full h-[1px] bg-gold scale-x-100 transition-transform duration-300"></span></a>
+          <a href="#timer" class="nav-link py-1 text-gray-400 hover:text-white">Love Timer<span class="nav-underline absolute bottom-0 left-0 w-full h-[1px] bg-gold scale-x-0 transition-transform duration-300"></span></a>
+          <a href="#gallery" class="nav-link py-1 text-gray-400 hover:text-white">Moments<span class="nav-underline absolute bottom-0 left-0 w-full h-[1px] bg-gold scale-x-0 transition-transform duration-300"></span></a>
+          <a href="#stats" class="nav-link py-1 text-gray-400 hover:text-white">Stats<span class="nav-underline absolute bottom-0 left-0 w-full h-[1px] bg-gold scale-x-0 transition-transform duration-300"></span></a>
+          <a href="#reasons" class="nav-link py-1 text-gray-400 hover:text-white">Reasons<span class="nav-underline absolute bottom-0 left-0 w-full h-[1px] bg-gold scale-x-0 transition-transform duration-300"></span></a>
+          <a href="#letter" class="nav-link py-1 text-gray-400 hover:text-white">Love Letter<span class="nav-underline absolute bottom-0 left-0 w-full h-[1px] bg-gold scale-x-0 transition-transform duration-300"></span></a>
+          <a href="#secret" class="nav-link py-1 text-gray-400 hover:text-white">Secret Message<span class="nav-underline absolute bottom-0 left-0 w-full h-[1px] bg-gold scale-x-0 transition-transform duration-300"></span></a>
+        </nav>
+
+        <!-- Hamburger menu button -->
+        <button id="btn-mobile-menu" class="lg:hidden p-2 text-gray-400 hover:text-white transition-colors duration-200">
+          <i id="mobile-menu-icon" data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Navigation Dropdown -->
+      <div id="mobile-menu" class="hidden lg:hidden w-full bg-royal-dark/98 border-b border-gold/15 p-6 glass-panel rounded-none">
+        <nav class="flex flex-col gap-5 text-sm uppercase tracking-widest font-semibold text-center">
+          <a href="#hero" class="mobile-nav-link py-2 text-gold">Home</a>
+          <a href="#timer" class="mobile-nav-link py-2 text-gray-300 hover:text-gold">Love Timer</a>
+          <a href="#gallery" class="mobile-nav-link py-2 text-gray-300 hover:text-gold">Moments</a>
+          <a href="#stats" class="mobile-nav-link py-2 text-gray-300 hover:text-gold">Stats</a>
+          <a href="#reasons" class="mobile-nav-link py-2 text-gray-300 hover:text-gold">Reasons</a>
+          <a href="#letter" class="mobile-nav-link py-2 text-gray-300 hover:text-gold">Love Letter</a>
+          <a href="#secret" class="mobile-nav-link py-2 text-gray-300 hover:text-gold">Secret Message</a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="hero" class="min-h-[85vh] flex items-center justify-center relative px-6 text-center overflow-hidden">
+      <!-- Starglow -->
+      <div class="absolute top-1/3 left-1/2 -translate-x-1/2 w-[350px] h-[350px] bg-gold/5 blur-[90px] rounded-full pointer-events-none"></div>
+
+      <div class="max-w-4xl z-10">
+        <div class="hero-reveal inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-gold/30 bg-gold/5 text-gold text-xs uppercase tracking-widest mb-6">
+          <i data-lucide="heart" class="w-3.5 h-3.5 fill-gold animate-pulse text-gold border-none"></i>
+          <span>An Infinite Recognition</span>
+        </div>
+
+        <h1 class="hero-reveal font-cinzel text-5xl md:text-7xl lg:text-8xl font-black text-gradient-gold mb-6 tracking-wide select-none">
+          Chinnoda <span class="text-red-500 text-3xl md:text-5xl lg:text-6xl align-middle">❤️</span> Mattooooo
+        </h1>
+
+        <p class="hero-reveal font-playfair text-xl md:text-3xl text-gray-200 italic mb-6 tracking-wide max-w-3xl mx-auto leading-relaxed">
+          "Some souls don’t just meet... they recognize each other."
+        </p>
+
+        <p class="hero-reveal font-light text-xs md:text-sm text-gray-400 max-w-xl mx-auto uppercase tracking-[0.25em] mb-4">
+          Since April 23, 2025 — 4:40 PM
+        </p>
+        
+        <p class="hero-reveal font-playfair text-sm md:text-base text-gold italic tracking-widest mb-12">
+          The moment my forever found its name.
+        </p>
+
+        <div class="hero-reveal flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#timer" class="btn-shimmer px-8 py-3.5 rounded-full font-cinzel text-xs uppercase tracking-widest font-bold">
+            See Our Time Together
+          </a>
+          <a href="#gallery" class="px-8 py-3.5 rounded-full border border-white/20 hover:border-gold/50 bg-white/5 text-xs font-cinzel uppercase tracking-widest font-bold hover:text-gold transition-all duration-300">
+            Browse Gallery
+          </a>
+        </div>
+      </div>
+
+      <!-- Scroll Indicator -->
+      <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 select-none pointer-events-none">
+        <span class="text-[9px] tracking-[0.4em] uppercase text-gray-500 font-bold animate-pulse">Begin the Story</span>
+        <i data-lucide="chevron-down" class="w-4 h-4 text-gold animate-bounce"></i>
+      </div>
+    </section>
+
+    <!-- LIVE LOVE TIMER SECTION -->
+    <section id="timer" class="py-24 md:py-32 px-6 border-t border-white/5 relative z-10">
+      <div class="max-w-6xl mx-auto text-center">
+        <div class="flex items-center justify-center gap-2 text-red-500 mb-4">
+          <i data-lucide="heart" class="w-5 h-5 fill-red-500 border-none"></i>
+          <span class="uppercase tracking-widest font-bold text-xs select-none">Live Connection Clock</span>
+        </div>
+
+        <h2 class="font-cinzel text-3xl md:text-5xl font-bold tracking-widest mb-6 text-gradient-gold select-none">
+          We Have Loved Through
+        </h2>
+
+        <!-- Relationship Age Pill -->
+        <div class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gold/20 bg-gold/5 text-gold text-xs md:text-sm uppercase tracking-widest mb-12 font-bold select-none backdrop-blur-md">
+          <i data-lucide="heart" class="w-3.5 h-3.5 fill-gold animate-pulse text-gold border-none"></i>
+          <span id="relationship-age">0 Years • 0 Months • 0 Days</span>
+        </div>
+
+        <div class="glass-panel-glow max-w-4xl mx-auto p-8 md:p-12 relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-36 h-36 bg-gold/5 blur-2xl rounded-full"></div>
+          <div class="absolute bottom-0 left-0 w-36 h-36 bg-red-600/5 blur-2xl rounded-full"></div>
+          
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 relative z-10">
+            <div class="dial-container p-4 glass-panel border border-gold/10">
+              <span id="timer-days" class="font-cinzel text-4xl md:text-6xl font-black text-white glow-text-gold tracking-tighter">00</span>
+              <span class="text-[10px] uppercase tracking-widest text-gold mt-3 font-semibold select-none flex items-center gap-1">
+                <i data-lucide="heart" class="w-2.5 h-2.5 fill-red-500 animate-pulse border-none"></i>Days
+              </span>
+            </div>
+            <div class="dial-container p-4 glass-panel border border-gold/10">
+              <span id="timer-hours" class="font-cinzel text-4xl md:text-6xl font-black text-white glow-text-gold tracking-tighter">00</span>
+              <span class="text-[10px] uppercase tracking-widest text-gold mt-3 font-semibold select-none flex items-center gap-1">
+                <i data-lucide="heart" class="w-2.5 h-2.5 fill-red-500 animate-pulse border-none"></i>Hours
+              </span>
+            </div>
+            <div class="dial-container p-4 glass-panel border border-gold/10">
+              <span id="timer-minutes" class="font-cinzel text-4xl md:text-6xl font-black text-white glow-text-gold tracking-tighter">00</span>
+              <span class="text-[10px] uppercase tracking-widest text-gold mt-3 font-semibold select-none flex items-center gap-1">
+                <i data-lucide="heart" class="w-2.5 h-2.5 fill-red-500 animate-pulse border-none"></i>Minutes
+              </span>
+            </div>
+            <div class="dial-container p-4 glass-panel border border-gold/10">
+              <span id="timer-seconds" class="font-cinzel text-4xl md:text-6xl font-black text-red-400 glow-text-red tracking-tighter animate-pulse">00</span>
+              <span class="text-[10px] uppercase tracking-widest text-gold mt-3 font-semibold select-none flex items-center gap-1">
+                <i data-lucide="heart" class="w-2.5 h-2.5 fill-red-500 animate-pulse border-none"></i>Seconds
+              </span>
+            </div>
+          </div>
+
+          <p class="font-playfair italic text-gray-400 text-sm md:text-base mt-10 tracking-widest select-none">
+            "And every second with you feels like a beautiful eternity..."
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- MEMORIES GALLERY SECTION -->
+    <section id="gallery" class="py-24 md:py-32 px-6 border-t border-white/5 relative z-10 overflow-hidden">
+      <!-- Starglow -->
+      <div class="absolute top-0 right-0 w-[400px] h-[400px] bg-gold/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16">
+          <h2 class="font-cinzel text-3xl md:text-5xl font-bold tracking-widest text-gradient-gold select-none">
+            Moments My Heart Will Never Forget ❤️
+          </h2>
+          <p class="text-xs text-gray-400 uppercase tracking-widest mt-4">Snaps of our laughter, milestones, and endless joy</p>
+        </div>
+
+        <!-- 1. Drag & Drop Upload Zone -->
+        <div class="max-w-3xl mx-auto mb-16 select-none">
+          <div id="drag-drop-zone" class="glass-panel border-2 border-dashed border-gold/30 hover:border-gold/60 p-8 rounded-2xl text-center cursor-pointer transition-all duration-300 bg-white/5">
+            <input type="file" id="file-input" accept="image/*" class="hidden" />
+            <div class="w-12 h-12 rounded-full bg-gold/10 border border-gold/30 flex items-center justify-center mx-auto mb-4">
+              <i data-lucide="upload" class="w-5 h-5 text-gold animate-bounce"></i>
+            </div>
+            
+            <h4 class="font-cinzel text-sm md:text-base font-bold text-white tracking-widest mb-2">
+              Drag & Drop a Memory Here
+            </h4>
+            <p class="text-xs text-gray-400 max-w-xs mx-auto mb-4">
+              Or click to browse from your device. Images are compressed locally and stored in your browser.
+            </p>
+
+            <!-- Custom Caption Input -->
+            <div class="max-w-md mx-auto" onclick="event.stopPropagation()">
+              <input
+                type="text"
+                id="custom-caption-input"
+                placeholder="Type a romantic caption... (or leave blank for random)"
+                class="w-full px-4 py-2 text-xs rounded-full border border-white/10 bg-royal-dark/80 text-white placeholder-gray-500 focus:outline-none focus:border-gold/50 text-center"
+              />
+            </div>
+            
+            <p id="upload-error" class="text-xs text-red-500 font-semibold mt-3"></p>
+          </div>
+        </div>
+
+        <!-- 2. FEATURED CAROUSEL -->
+        <div class="mb-24">
+          <h3 class="font-cinzel text-lg md:text-xl font-bold tracking-widest text-center text-white mb-8 flex items-center justify-center gap-2">
+            <i data-lucide="sparkle" class="w-4 h-4 text-gold fill-gold/25 animate-pulse"></i>
+            <span>Our Love Carousel</span>
+            <i data-lucide="sparkle" class="w-4 h-4 text-gold fill-gold/25 animate-pulse"></i>
+          </h3>
+
+          <div class="relative max-w-4xl mx-auto h-[350px] md:h-[500px] rounded-2xl overflow-hidden glass-panel border border-gold/20 group shadow-2xl">
+            <!-- Slide container track -->
+            <div id="carousel-track" class="w-full h-full flex transition-transform duration-700 ease-out">
+              <!-- Populated via script.js -->
+            </div>
+
+            <!-- Carousel overlay details -->
+            <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-6 md:p-10 pointer-events-none text-left">
+              <span id="carousel-date" class="text-xs md:text-sm font-bold text-gold uppercase tracking-widest mb-2"></span>
+              <h3 id="carousel-caption" class="font-playfair text-lg md:text-2xl text-white font-medium italic drop-shadow-md"></h3>
+            </div>
+
+            <!-- Nav arrows -->
+            <button id="carousel-prev" class="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/40 hover:bg-gold/20 hover:text-gold border border-white/5 text-white transition-all duration-300 active:scale-90">
+              <i data-lucide="chevron-left" class="w-5 h-5"></i>
+            </button>
+            <button id="carousel-next" class="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/40 hover:bg-gold/20 hover:text-gold border border-white/5 text-white transition-all duration-300 active:scale-90">
+              <i data-lucide="chevron-right" class="w-5 h-5"></i>
+            </button>
+
+            <!-- Nav dots -->
+            <div id="carousel-dots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+              <!-- Populated via script.js -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. GRID GALLERY -->
+        <div class="mb-10 text-center select-none">
+          <h3 class="font-cinzel text-lg md:text-xl font-bold tracking-widest text-center text-white mb-10">📚 Full Memories Log</h3>
+        </div>
+        <div id="grid-gallery" class="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 md:gap-6 space-y-4 md:space-y-6">
+          <!-- Populated via script.js -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- LIGHTBOX MODAL -->
+    <div id="lightbox" class="lightbox-modal justify-center items-center p-6 select-none">
+      <!-- Close button -->
+      <button id="lightbox-close" class="absolute top-6 right-6 p-3 rounded-full bg-black/50 border border-white/10 hover:bg-red-500/20 hover:text-red-400 text-white transition-all duration-300 active:scale-95">
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+
+      <!-- Lightbox content container -->
+      <div class="relative max-w-4xl w-full flex flex-col items-center">
+        <img id="lightbox-img" class="max-h-[70vh] max-w-full object-contain rounded-lg shadow-2xl border border-gold/20" src="" alt="">
+        
+        <!-- Description details -->
+        <div class="w-full text-center mt-6">
+          <span id="lightbox-date" class="text-xs font-bold text-gold uppercase tracking-widest block mb-1"></span>
+          <p id="lightbox-caption" class="font-playfair text-base md:text-lg text-white italic"></p>
+        </div>
+
+        <!-- Delete button inside lightbox (revealed for custom uploaded files) -->
+        <button id="lightbox-delete-btn" class="hidden mt-4 flex items-center gap-1.5 px-4 py-2 bg-red-600/85 hover:bg-red-700 text-white rounded-full font-cinzel text-xs uppercase tracking-widest font-bold transition-colors duration-200 shadow-md">
+          <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+          Delete Memory
+        </button>
+
+        <!-- Nav arrows inside lightbox -->
+        <button id="lightbox-prev" class="absolute left-2 md:-left-16 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 border border-white/10 hover:bg-gold/20 hover:text-gold text-white transition-all duration-300 active:scale-90">
+          <i data-lucide="chevron-left" class="w-6 h-6"></i>
+        </button>
+        <button id="lightbox-next" class="absolute right-2 md:-right-16 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 border border-white/10 hover:bg-gold/20 hover:text-gold text-white transition-all duration-300 active:scale-90">
+          <i data-lucide="chevron-right" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- STATS - OUR LITTLE UNIVERSE SECTION -->
+    <section id="stats" class="py-24 md:py-32 px-6 border-t border-white/5 relative z-10 overflow-hidden">
+      <!-- Glow spots -->
+      <div class="absolute top-1/4 right-0 w-[400px] h-[400px] bg-gold/5 blur-[120px] rounded-full pointer-events-none"></div>
+      <div class="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-red-600/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-20">
+          <span class="font-cinzel text-xs uppercase tracking-[0.3em] text-gold font-bold mb-3 block select-none">Our Little Universe</span>
+          <h2 class="font-cinzel text-3xl md:text-5xl font-bold tracking-widest text-gradient-gold mb-6 select-none">
+            Love By The Numbers
+          </h2>
+          <p class="font-playfair text-gray-400 italic text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+            "We build our own infinity out of quiet seconds, spoken secrets, and shared laughter."
+          </p>
+        </div>
+
+        <div id="stats-grid" class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Populated via script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- REASONS I LOVE YOU SECTION -->
+    <section id="reasons" class="py-24 md:py-32 px-6 border-t border-white/5 relative z-10 overflow-hidden">
+      <!-- Glow spots -->
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-red-900/5 blur-[150px] rounded-full pointer-events-none"></div>
+
+      <div class="max-w-6xl mx-auto">
+        <div class="text-center mb-20">
+          <span class="font-cinzel text-xs uppercase tracking-[0.3em] text-gold font-bold mb-3 block select-none">Why My Heart Beats</span>
+          <h2 class="font-cinzel text-3xl md:text-5xl font-bold tracking-widest text-gradient-gold mb-6 select-none">
+            Reasons I Love You
+          </h2>
+          <p class="font-playfair text-gray-400 italic text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+            "Eight beautiful pieces of the infinite puzzle of why you are my absolute favorite person in this universe."
+          </p>
+        </div>
+
+        <div id="reasons-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <!-- Populated via script.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- TYPEWRITER LOVE LETTER SECTION -->
+    <section id="letter" class="py-24 md:py-32 px-6 border-t border-white/5 relative z-10 overflow-hidden">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/5 blur-[160px] rounded-full pointer-events-none"></div>
+
+      <div class="max-w-4xl mx-auto">
+        <div class="text-center mb-16">
+          <div class="inline-flex items-center justify-center p-3 rounded-full bg-gold/5 border border-gold/20 mb-4 text-gold animate-pulse">
+            <i data-lucide="mail" class="w-6 h-6"></i>
+          </div>
+          <span class="font-cinzel text-xs uppercase tracking-[0.3em] text-gold font-bold mb-3 block select-none">From My Soul To Yours</span>
+          <h2 class="font-cinzel text-3xl md:text-5xl font-bold tracking-widest text-gradient-gold select-none">
+            If My Heart Could Write...
+          </h2>
+        </div>
+
+        <!-- Paper Glass Panel -->
+        <div class="glass-panel p-8 md:p-16 border border-gold/15 shadow-[0_15px_50px_-15px_rgba(0,0,0,0.8)] relative max-w-3xl mx-auto">
+          <!-- Corner borders -->
+          <div class="absolute top-4 left-4 w-6 h-6 border-t-2 border-l-2 border-gold/30"></div>
+          <div class="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-gold/30"></div>
+          <div class="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-gold/30"></div>
+          <div class="absolute bottom-4 right-4 w-6 h-6 border-b-2 border-r-2 border-gold/30"></div>
+
+          <div class="font-playfair text-base md:text-lg text-gray-200 leading-relaxed select-text space-y-4">
+            <!-- Salutation target -->
+            <p id="letter-salutation" class="font-bold text-gold text-lg md:text-xl mb-6"></p>
+            
+            <!-- Paragraphs target -->
+            <div id="letter-paragraphs" class="text-justify md:text-left text-gray-300"></div>
+
+            <!-- Valediction / Signature targets -->
+            <div class="pt-8 border-t border-white/5 flex flex-col items-end text-right select-none">
+              <span id="letter-valediction" class="text-sm md:text-base italic text-gold font-medium mb-3"></span>
+              <span id="letter-signature" class="font-greatvibes text-3xl md:text-4xl text-gradient-gold font-bold tracking-wide"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECRET LOCKED MESSAGE SECTION -->
+    <section id="secret" class="py-24 md:py-32 px-6 border-t border-white/5 relative z-10 overflow-hidden">
+      <!-- Background Glows -->
+      <div class="absolute top-1/3 left-1/4 w-[350px] h-[350px] bg-red-600/5 blur-[120px] rounded-full pointer-events-none"></div>
+      <div class="absolute bottom-1/3 right-1/4 w-[350px] h-[350px] bg-gold/5 blur-[120px] rounded-full pointer-events-none"></div>
+
+      <div class="max-w-4xl mx-auto flex flex-col items-center">
+        
+        <div class="text-center mb-16">
+          <span class="font-cinzel text-xs uppercase tracking-[0.3em] text-gold font-bold mb-3 block select-none">Locked Chamber</span>
+          <h2 class="font-cinzel text-3xl md:text-5xl font-bold tracking-widest text-gradient-gold mb-6 select-none">
+            Our Secret Sanctuary
+          </h2>
+          <p class="font-playfair text-gray-400 italic text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+            "A box of promises meant only for your eyes. Guarded by the date our forever truly began."
+          </p>
+        </div>
+
+        <!-- 1. LOCKED CONTAINER -->
+        <form id="secret-lock-form" class="glass-panel p-8 md:p-10 border border-gold/15 max-w-sm w-full mx-auto flex flex-col items-center relative overflow-hidden transition-all duration-300">
+          <div id="lock-icon-container" class="w-16 h-16 rounded-full border border-gold/30 bg-gold/5 text-gold flex items-center justify-center mb-6 transition-all duration-300">
+            <i id="lock-icon" data-lucide="lock" class="w-6 h-6 animate-pulse"></i>
+          </div>
+
+          <p id="passcode-prompt" class="text-xs text-gray-400 uppercase tracking-widest font-bold text-center mb-8 px-4 leading-relaxed"></p>
+
+          <!-- Alphanumeric Password Input -->
+          <div class="relative w-full mb-6">
+            <input
+              type="password"
+              id="secret-password-input"
+              placeholder="Enter passcode..."
+              class="w-full px-5 py-3.5 rounded-full font-sans text-sm border border-white/10 bg-white/5 text-white placeholder-gray-500 focus:outline-none focus:border-gold/50 focus:ring-1 focus:ring-gold/30 transition-all duration-200 pr-12 text-center"
+            />
+            <button
+              type="button"
+              id="btn-toggle-password"
+              class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200 focus:outline-none"
+            >
+              <i id="eye-icon" data-lucide="eye" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Decrypt Button -->
+          <button
+            type="submit"
+            id="btn-decrypt"
+            class="w-full py-3.5 rounded-full font-cinzel text-xs uppercase tracking-widest font-bold border border-gold/30 bg-gold/15 text-gold hover:bg-gold/25 hover:border-gold/50 active:scale-98 transition-all duration-200"
+          >
+            Decrypt Promise
+          </button>
+
+          <p id="lock-error" class="text-xs text-red-500 uppercase tracking-widest font-bold text-center mt-6 opacity-0 transition-opacity duration-300">Passcode Incorrect, Try Again</p>
+        </form>
+
+        <!-- 2. UNLOCKED TEXT CONTAINER -->
+        <div id="secret-unlocked-container" class="hidden scale-95 opacity-0 glass-panel-glow p-8 md:p-12 border border-gold/30 max-w-2xl w-full mx-auto text-center relative overflow-hidden transition-all duration-1000">
+          <div class="absolute top-0 right-0 w-24 h-24 bg-gold/5 blur-xl rounded-full"></div>
+          <div class="absolute bottom-0 left-0 w-24 h-24 bg-red-600/5 blur-xl rounded-full"></div>
+
+          <div class="w-16 h-16 rounded-full border border-gold/40 bg-gold/10 text-gold flex items-center justify-center mb-6 mx-auto shadow-[0_0_15px_rgba(251,191,36,0.25)]">
+            <i data-lucide="unlock" class="w-6 h-6 animate-pulse"></i>
+          </div>
+
+          <h3 id="unlocked-title" class="font-cinzel text-2xl md:text-3xl font-black text-gradient-gold mb-6 select-none"></h3>
+
+          <div class="font-playfair text-base md:text-lg text-gray-200 leading-relaxed max-w-xl mx-auto space-y-6 select-text mb-8">
+            <p id="unlocked-text" class="whitespace-pre-line"></p>
+          </div>
+
+          <div class="flex items-center justify-center gap-1 text-red-500 select-none">
+            <i data-lucide="heart" class="w-4 h-4 fill-red-500 border-none animate-pulse"></i>
+            <span class="font-cinzel text-[10px] tracking-[0.3em] font-bold text-gold">Chinnoda ❤️ Mattooooo</span>
+            <i data-lucide="heart" class="w-4 h-4 fill-red-500 border-none animate-pulse"></i>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FUTURE COUNTDOWNS SECTION -->
+    <section class="py-24 md:py-32 px-6 border-t border-white/5 relative z-10 overflow-hidden">
+      <!-- Glow spots -->
+      <div class="absolute top-0 right-1/4 w-[300px] h-[300px] bg-gold/5 blur-[100px] rounded-full pointer-events-none"></div>
+      <div class="absolute bottom-0 left-1/4 w-[300px] h-[300px] bg-red-600/5 blur-[100px] rounded-full pointer-events-none"></div>
+
+      <div class="max-w-5xl mx-auto">
+        <div class="text-center mb-20">
+          <span class="font-cinzel text-xs uppercase tracking-[0.3em] text-gold font-bold mb-3 block select-none">What We're Waiting For</span>
+          <h2 class="font-cinzel text-3xl md:text-5xl font-bold tracking-widest text-gradient-gold mb-6 select-none">
+            Future Milestones
+          </h2>
+          <p class="font-playfair text-gray-400 italic text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+            "Counting down the chapters yet to be written, knowing every single one will be beautiful."
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <!-- Monthly card -->
+          <div class="glass-panel p-8 border border-gold/10 hover:border-gold/30 hover:shadow-[0_0_20px_rgba(251,191,36,0.1)] transition-all duration-500 rounded-2xl flex flex-col justify-between relative group overflow-hidden">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-gold/5 blur-xl rounded-full"></div>
+            
+            <div>
+              <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 rounded-full bg-gold/10 text-gold border border-gold/25 group-hover:scale-110 transition-transform duration-300">
+                  <i data-lucide="calendar" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="font-cinzel text-lg font-bold text-white tracking-widest">Monthly Anniversary</h3>
+                  <p id="countdown-monthly-label" class="text-[10px] text-gold uppercase tracking-wider font-semibold mt-0.5"></p>
+                </div>
+              </div>
+
+              <!-- Monthly countdown card container -->
+              <div id="countdown-monthly" class="grid grid-cols-4 gap-3 my-6">
+                <div class="bg-royal-dark/50 border border-white/5 rounded-lg py-3 text-center">
+                  <span class="val-days font-cinzel text-xl md:text-2xl font-black text-white block">00</span>
+                  <span class="text-[8px] uppercase tracking-wider text-gray-500 font-bold block mt-1">Days</span>
+                </div>
+                <div class="bg-royal-dark/50 border border-white/5 rounded-lg py-3 text-center">
+                  <span class="val-hours font-cinzel text-xl md:text-2xl font-black text-white block">00</span>
+                  <span class="text-[8px] uppercase tracking-wider text-gray-500 font-bold block mt-1">Hours</span>
+                </div>
+                <div class="bg-royal-dark/50 border border-white/5 rounded-lg py-3 text-center">
+                  <span class="val-mins font-cinzel text-xl md:text-2xl font-black text-white block">00</span>
+                  <span class="text-[8px] uppercase tracking-wider text-gray-500 font-bold block mt-1">Mins</span>
+                </div>
+                <div class="bg-royal-dark/50 border border-white/5 rounded-lg py-3 text-center">
+                  <span class="val-secs font-cinzel text-xl md:text-2xl font-black text-white block">00</span>
+                  <span class="text-[8px] uppercase tracking-wider text-gray-500 font-bold block mt-1">Secs</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="font-playfair text-xs italic text-gray-400 text-center mt-4">
+              "Another month of falling in love all over again."
+            </p>
+          </div>
+
+          <!-- Yearly card -->
+          <div class="glass-panel p-8 border border-gold/10 hover:border-gold/30 hover:shadow-[0_0_20px_rgba(239,68,68,0.1)] transition-all duration-500 rounded-2xl flex flex-col justify-between relative group overflow-hidden">
+            <div class="absolute top-0 right-0 w-24 h-24 bg-red-600/5 blur-xl rounded-full"></div>
+            
+            <div>
+              <div class="flex items-center gap-3 mb-6">
+                <div class="p-3 rounded-full bg-red-500/10 text-red-400 border border-red-500/25 group-hover:scale-110 transition-transform duration-300">
+                  <i data-lucide="award" class="w-5 h-5"></i>
+                </div>
+                <div>
+                  <h3 class="font-cinzel text-lg font-bold text-white tracking-widest">Yearly Anniversary</h3>
+                  <p id="countdown-yearly-label" class="text-[10px] text-red-400 uppercase tracking-wider font-semibold mt-0.5"></p>
+                </div>
+              </div>
+
+              <!-- Yearly countdown card container -->
+              <div id="countdown-yearly" class="grid grid-cols-4 gap-3 my-6">
+                <div class="bg-royal-dark/50 border border-white/5 rounded-lg py-3 text-center">
+                  <span class="val-days font-cinzel text-xl md:text-2xl font-black text-white block">00</span>
+                  <span class="text-[8px] uppercase tracking-wider text-gray-500 font-bold block mt-1">Days</span>
+                </div>
+                <div class="bg-royal-dark/50 border border-white/5 rounded-lg py-3 text-center">
+                  <span class="val-hours font-cinzel text-xl md:text-2xl font-black text-white block">00</span>
+                  <span class="text-[8px] uppercase tracking-wider text-gray-500 font-bold block mt-1">Hours</span>
+                </div>
+                <div class="bg-royal-dark/50 border border-white/5 rounded-lg py-3 text-center">
+                  <span class="val-mins font-cinzel text-xl md:text-2xl font-black text-white block">00</span>
+                  <span class="text-[8px] uppercase tracking-wider text-gray-500 font-bold block mt-1">Mins</span>
+                </div>
+                <div class="bg-royal-dark/50 border border-white/5 rounded-lg py-3 text-center">
+                  <span class="val-secs font-cinzel text-xl md:text-2xl font-black text-white block">00</span>
+                  <span class="text-[8px] uppercase tracking-wider text-gray-500 font-bold block mt-1">Secs</span>
+                </div>
+              </div>
+            </div>
+
+            <p class="font-playfair text-xs italic text-gray-400 text-center mt-4">
+              "To many more years of written stars and cosmic destinies."
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FOOTER SECTION -->
+    <footer class="relative bg-gradient-to-t from-black via-[#040000] to-transparent pt-32 pb-16 px-6 z-10 text-center select-none overflow-hidden">
+      <!-- Decorative divider -->
+      <div class="flex items-center justify-center gap-4 max-w-md mx-auto mb-16">
+        <div class="h-[1px] bg-gradient-to-r from-transparent to-gold/30 flex-1"></div>
+        <i data-lucide="heart" class="w-4 h-4 fill-gold animate-pulse text-gold border-none"></i>
+        <div class="h-[1px] bg-gradient-to-l from-transparent to-gold/30 flex-1"></div>
+      </div>
+
+      <div class="max-w-4xl mx-auto flex flex-col items-center">
+        <!-- Cinematic Final Phrase -->
+        <h3 class="font-greatvibes text-4xl md:text-6xl text-gradient-gold font-bold mb-8 tracking-wide drop-shadow-[0_0_12px_rgba(251,191,36,0.25)]">
+          To Infinity & Beyond...
+        </h3>
+
+        <p class="font-cinzel text-xs md:text-sm tracking-[0.25em] text-gray-500 uppercase font-bold mb-10 max-w-xl leading-relaxed">
+          Our love is written in the stars, and this is only our first chapter.
+        </p>
+
+        <!-- Copyright -->
+        <div class="text-[10px] text-gray-600 uppercase tracking-widest flex flex-col md:flex-row items-center gap-1.5 md:gap-3">
+          <span>Made with love by <span id="footer-p1"></span></span>
+          <span class="hidden md:inline text-gold">•</span>
+          <span>© <span id="footer-year">2026</span> <span id="footer-p2"></span></span>
+          <span class="hidden md:inline text-gold">•</span>
+          <span class="flex items-center gap-1">
+            Locked forever in the matrix
+            <i data-lucide="heart" class="w-2.5 h-2.5 fill-red-600 border-none animate-pulse"></i>
+          </span>
+        </div>
+      </div>
+    </footer>
+
+    <!-- MUSIC PLAYER WIDGET -->
+    <div class="fixed bottom-6 right-6 z-50 flex items-center gap-4 bg-royal-dark/80 backdrop-blur-md border border-gold/15 p-3 rounded-full shadow-2xl">
+      <!-- Dancing audio visualizer bar -->
+      <div id="visualizer" class="flex gap-1 items-end h-6 px-2">
+        <div class="w-[3px] bg-gold rounded transition-all duration-150" style="height: 4px;"></div>
+        <div class="w-[3px] bg-gold rounded transition-all duration-150" style="height: 4px;"></div>
+        <div class="w-[3px] bg-gold rounded transition-all duration-150" style="height: 4px;"></div>
+        <div class="w-[3px] bg-gold rounded transition-all duration-150" style="height: 4px;"></div>
+      </div>
+
+      <div class="flex flex-col text-left">
+        <span id="music-title" class="font-cinzel text-[10px] font-bold text-white tracking-widest max-w-[120px] truncate"></span>
+        <span id="music-artist" class="text-[8px] text-gray-400 font-medium max-w-[120px] truncate"></span>
+      </div>
+
+      <button id="btn-play-pause" class="p-3 rounded-full bg-gold/15 border border-gold/30 hover:bg-gold/30 text-gold hover:text-white transition-all duration-300 active:scale-90">
+        <i id="music-icon" data-lucide="play" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Load Global Configurations -->
+  <script src="config.js"></script>
+
+  <!-- Load Logic -->
+  <script src="script.js"></script>
+
+  <!-- Set Dynamic Footer Year -->
+  <script>
+    document.getElementById("footer-year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
