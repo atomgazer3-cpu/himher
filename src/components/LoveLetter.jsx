@@ -108,7 +108,7 @@ export default function LoveLetter() {
               <p className="whitespace-pre-line text-justify md:text-left typewriter-cursor relative">
                 {typedText}
               </p>
-            ))}
+            )}
 
             {/* Render valediction and signature */}
             {isDone && (
